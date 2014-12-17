@@ -6,7 +6,7 @@ import time
 ####
 username = "snooze"
 password = "7efd42209ac34abcb13a07069cd88fe4"  #32-cmd here
-blabla = '%D0%A1%CA%D6%D2%BB%B6%B6%A3%AC%B4%F3%C3%D7%B5%BD%CA%D6' #your blabla here
+blabla = '小手一抖，大米到手' #your blabla here
 ###
 
 def getTime():
