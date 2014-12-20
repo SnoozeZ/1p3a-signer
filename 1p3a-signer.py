@@ -51,21 +51,17 @@ def sign(my_cookies):
     print r.content
     return True
   
-
-
 if __name__ == "__main__":
   while 1:
-    print 123321
     tmp = getTime() #get the 1p3a sever's time
-    print 123321
     if tmp['h'] != 23 | tmp['m'] < 29:
       print "Sleeping... 1p3a's current time "+str(tmp['h'])+":"+str(tmp['m'])+":"+str(tmp['s'])
-      #time.sleep(1620)
-    #else:
+      time.sleep(1620)
+    else:
       my_cookies = login()
       slptm = (59 - tmp['m']) * 60 + (59 - tmp['s'])
       print "It's comming... I will sleep " +str(slptm-10)+ " seconds."
-      #time.sleep(slptm - 10)
+      time.sleep(slptm - 10)
       for i in range(100):
         print "Try " +str(i)+" times, your local time is " + str(time.strftime('%H:%M:%S',time.localtime(time.time())))
         if sign(my_cookies):
