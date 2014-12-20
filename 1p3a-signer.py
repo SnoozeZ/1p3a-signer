@@ -1,3 +1,4 @@
+#coding=gbk 
 #Developed by Snooze, 2014-12-18
 
 import requests
@@ -6,7 +7,7 @@ import time
 ####
 username = "snooze"
 password = "7efd42209ac34abcb13a07069cd88fe4"  #32-cmd here
-blabla = '灏忔墜涓�鎶栵紝澶х背鍒版墜' #your blabla here
+blabla = 'Little hand one shake, big rice arrive hand.' #your blabla here
 ###
 
 def getTime():
@@ -43,21 +44,31 @@ def sign(my_cookies):
   r = requests.post("http://www.1point3acres.com/bbs/plugin.php?id=dsu_paulsign:sign&operation=qiandao&infloat=1&sign_as=1&inajax=1",
     data = sign_data,
     cookies = my_cookies)
-  print r.content
+  if r.content.find("请明天再来") != -1:
+    print r.content
+    return False
+  else:
+    print r.content
+    return True
+  
 
 
 if __name__ == "__main__":
   while 1:
+    print 123321
     tmp = getTime() #get the 1p3a sever's time
-    if tmp['h'] != 23:
+    print 123321
+    if tmp['h'] != 23 | tmp['m'] < 29:
       print "Sleeping... 1p3a's current time "+str(tmp['h'])+":"+str(tmp['m'])+":"+str(tmp['s'])
-      time.sleep(3000)
-    else:
-      my_cookie = login()
+      #time.sleep(1620)
+    #else:
+      my_cookies = login()
       slptm = (59 - tmp['m']) * 60 + (59 - tmp['s'])
       print "It's comming... I will sleep " +str(slptm-10)+ " seconds."
-      time.sleep(slptm - 10)
-      for i in range(20):
+      #time.sleep(slptm - 10)
+      for i in range(100):
         print "Try " +str(i)+" times, your local time is " + str(time.strftime('%H:%M:%S',time.localtime(time.time())))
-        sign(my_cookies)
-        time.sleep(1)
+        if sign(my_cookies):
+          continue
+        else:
+          break
