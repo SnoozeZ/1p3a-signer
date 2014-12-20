@@ -6,12 +6,18 @@ import re
 import time
 ####
 username = "snooze"
-password = "7efd42209ac34abcb13a07069cd88fe4"  #32-cmd here
+password = "7efd42209ac34abcb13a07069cd88fe4"  #password in 32-md5 here
 blabla = 'Little hand one shake, big rice arrive hand.' #your blabla here
 ###
 
 def getTime():
-  r = requests.get('http://www.1point3acres.com/bbs/')
+  while True:
+    try:
+      r = requests.get('http://www.1point3acres.com/bbs/forum.php?mod=misc&action=showdarkroom')
+      break;
+    except Exception,ex:
+      print Exception,":",ex
+      time.sleep(1)
   date = r.headers['date']
   hour = (int(date[17:19]) + 8) % 24 #GMT -> Chinese time zone
   minute = int(date[20:22])
@@ -23,16 +29,28 @@ def login():
     'password': password, 
     'quickforward': 'yes', 
     'handlekey': 'ls'}
-  r = requests.post("http://www.1point3acres.com/bbs/member.php?mod=logging&action=login&loginsubmit=yes&infloat=yes&lssubmit=yes&inajax=1",
-    data = login_data)
-  my_cookies = r.cookies
+  while True:
+    try:
+      r = requests.post("http://www.1point3acres.com/bbs/member.php?mod=logging&action=login&loginsubmit=yes&infloat=yes&lssubmit=yes&inajax=1",
+        data = login_data)
+      break;
+    except Exception,ex:
+      print Exception,":",ex
+      time.sleep(1)
+      
   return r.cookies
 
   
 def sign(my_cookies):
-  #find the odd "formhash"
-  r = requests.get("http://www.1point3acres.com/bbs/",
-    cookies = my_cookies)
+  #find the odd WTF "formhash"
+  while True:
+    try:
+      r = requests.get("http://www.1point3acres.com/bbs/",
+        cookies = my_cookies)
+      break
+    except Exception,ex:
+      print Exception,":",ex
+      time.sleep(1)
   pattern = 'formhash=.*?&'
   formhash = re.findall(pattern,r.content,re.S)[0][9:17]
   #SIGN NOW!
@@ -41,20 +59,27 @@ def sign(my_cookies):
     'qdmode': '1', 
     'todaysay': blabla,
     'fastreply': '0'}
-  r = requests.post("http://www.1point3acres.com/bbs/plugin.php?id=dsu_paulsign:sign&operation=qiandao&infloat=1&sign_as=1&inajax=1",
-    data = sign_data,
-    cookies = my_cookies)
-  if r.content.find("请明天再来") != -1:
-    print r.content
+  while True:
+    try:
+      r = requests.post("http://www.1point3acres.com/bbs/plugin.php?id=dsu_paulsign:sign&operation=qiandao&infloat=1&sign_as=1&inajax=1",
+        data = sign_data,
+        cookies = my_cookies)
+      break
+    except Exception,ex:
+      print Exception,":",ex
+      time.sleep(1)
+      
+  if r.content.find("萝卜") != -1:
+    print 'Successfully signed! -3-'
     return False
   else:
-    print r.content
+    print 'Failed! - -#'
     return True
   
 if __name__ == "__main__":
   while 1:
     tmp = getTime() #get the 1p3a sever's time
-    if tmp['h'] != 23 | tmp['m'] < 29:
+    if tmp['h'] < 23 or tmp['m'] < 29:
       print "Sleeping... 1p3a's current time "+str(tmp['h'])+":"+str(tmp['m'])+":"+str(tmp['s'])
       time.sleep(1620)
     else:
