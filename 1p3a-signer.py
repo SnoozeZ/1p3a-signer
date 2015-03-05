@@ -6,7 +6,7 @@ import time
 import thread
 ####
 username = "snooze"
-password = "7efd42209ac34abcb13a07069cd88fe5"  #password in 32-md5 here
+password = "bbc870dfc09c2f7b0b8ee1fec64c6516"  #password in 32-md5 here
 blabla = 'Little hand one shake, big rice arrive hand.' #your blabla here
 ###
 
