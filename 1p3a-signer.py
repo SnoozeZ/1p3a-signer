@@ -6,7 +6,7 @@ import time
 import thread
 ####
 username = "snooze"
-password = "7efd42209ac34abcb13a07069cd88fe4"  #password in 32-md5 here
+password = "7efd42209ac34abcb13a07069cd88fe5"  #password in 32-md5 here
 blabla = 'Little hand one shake, big rice arrive hand.' #your blabla here
 ###
 
@@ -73,7 +73,7 @@ def sign(cookies, formhash):
     print Exception,":",ex
     #time.sleep(1)
       
-  if r.content.find("�ܲ�") != -1:
+  if r.content.find("ÂÜ²·") != -1:
     print 'Successfully signed! -3-'
     return False
   else:
